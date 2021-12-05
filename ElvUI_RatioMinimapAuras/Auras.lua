@@ -7,7 +7,7 @@ local ACH
 -- local MasqueGroupDebuffs = Masque and Masque:Group('ElvUI', 'Debuffs')
 
 for _, auraType in next, {'buffs', 'debuffs'} do
-	P.auras[auraType].keepSizeRatio = false
+	P.auras[auraType].keepSizeRatio = true
 	P.auras[auraType].height = 18
 end
 
