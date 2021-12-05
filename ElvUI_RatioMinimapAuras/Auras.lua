@@ -46,7 +46,7 @@ local function UpdateHeader(_, header)
 
 	local db = A.db[header.auraType]
 
-	local template = format('ElvUIAuraTemplate%d%d', db.size, db.height)
+	local template = format('ElvUIAuraTemplate%d%d', db.size, (db.keepSizeRatio and db.size or db.height))
 
 	if header.filter == 'HELPFUL' then
 		header:SetAttribute('weaponTemplate', template)
