@@ -1,6 +1,6 @@
 # Ratio Minimap Auras (ElvUI Plugin)
 
-**Do you disable the Keep Aspect Ratio option on your auras on your nameplates, unitframes, or even your actionbars to make them rectangle instead of the standard square?**
+**Do you disable the Keep Aspect Ratio option on your auras on your nameplates, unitframes, or even your actionbars to make them rectangle instead of the standard square?**  
 **Did you realize that there was no such option for the Buffs and Debuffs next to the Minimap?**
 
 ###Well there isn't, well wasn't, one until now.
