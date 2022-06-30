@@ -1,3 +1,3 @@
-v1.02 12/5/2021
+v1.03 6/30/2022
 
-- Enable Keep Aspect Ratio by default to respect ElvUI's current settings
+• TOC bump
