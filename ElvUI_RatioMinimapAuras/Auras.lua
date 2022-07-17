@@ -96,7 +96,7 @@ local function GetOptions()
 	Auras.args.debuffs.args.sizeGroup = ACH:Group(L["Size"], nil, -3)
 	Auras.args.debuffs.args.sizeGroup.inline = true
 	Auras.args.debuffs.args.sizeGroup.args.keepSizeRatio = ACH:Toggle(L["Keep Size Ratio"], nil, 1)
-	Auras.args.debuffs.args.sizeGroup.args.height = ACH:Range(L["Icon Height"], nil, 5, { min = 16, max = 60, step = 2 }, nil, nil, nil, nil, function() return E.db.auras['buffs'].keepSizeRatio end)
+	Auras.args.debuffs.args.sizeGroup.args.height = ACH:Range(L["Icon Height"], nil, 5, { min = 16, max = 60, step = 2 }, nil, nil, nil, nil, function() return E.db.auras['debuffs'].keepSizeRatio end)
 	Auras.args.debuffs.args.sizeGroup.args.size = ACH:Range(function() return E.db.auras['debuffs'].keepSizeRatio and L["Size"] or L["Icon Width"] end, L["Set the size of the individual auras."], 5, { min = 16, max = 60, step = 2 })
 	Auras.args.debuffs.args.size.hidden = true
 end
