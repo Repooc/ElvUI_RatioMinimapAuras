@@ -1,3 +1,4 @@
-v1.05 8/31/2022
+v1.06 11/2/2022
 
-• toc bump for retail and wrath
+• toc bump for 10.0
+• trimmed the icon to match how elvui does the ratio actionbar buttons
