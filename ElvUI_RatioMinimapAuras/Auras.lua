@@ -29,11 +29,12 @@ local DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER = {
 	LEFT_UP = 1,
 }
 
-local function trimIcon(button, db, masque)
-	if not button.texture then return end
+local function trimIcon(button, db)
+	if not button.texture or not db then return end
 
 	local left, right, top, bottom = unpack(db and db.customCoords or E.TexCoords)
 	local changeRatio = db and not db.keepSizeRatio
+
 	if changeRatio then
 		local width, height = button:GetSize()
 		local ratio = width / height
@@ -67,7 +68,6 @@ local function UpdateHeader(_, header)
 	if not E.private.auras.enable then return end
 
 	local db = A.db[header.auraType]
-
 	local template = format('ElvUIAuraTemplate%d%d', db.size, (db.keepSizeRatio and db.size or db.height))
 
 	if header.filter == 'HELPFUL' then
