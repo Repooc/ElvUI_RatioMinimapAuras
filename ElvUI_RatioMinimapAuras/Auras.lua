@@ -9,6 +9,13 @@ local ACH
 for _, auraType in next, {'buffs', 'debuffs'} do
 	P.auras[auraType].keepSizeRatio = true
 	P.auras[auraType].height = 18
+	P.auras[auraType].useCustomCoords = false
+	P.auras[auraType].customCoords = {
+		left = 0.08,
+		right = 0.92,
+		top = 0.08,
+		bottom = 0.92,
+	}
 end
 
 local IS_HORIZONTAL_GROWTH = {
@@ -32,7 +39,7 @@ local DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER = {
 local function trimIcon(button, db)
 	if not button.texture or not db then return end
 
-	local left, right, top, bottom = unpack(db and db.customCoords or E.TexCoords)
+	local left, right, top, bottom = unpack(db.useCustomCoords and {db.customCoords.left, db.customCoords.right, db.customCoords.top, db.customCoords.bottom} or E.TexCoords)
 	local changeRatio = db and not db.keepSizeRatio
 
 	if changeRatio then
@@ -104,23 +111,30 @@ local function UpdateHeader(_, header)
 	-- if MasqueGroupDebuffs and E.private.auras.debuffsHeader and E.private.auras.masque.debuffs then MasqueGroupDebuffs:ReSkin() end
 end
 
+local function GetSharedOptions(auraType)
+	local config = E.Options.args.auras
+	config.args[auraType].args.sizeGroup = ACH:Group(L["Size"], nil, -3)
+	config.args[auraType].args.sizeGroup.inline = true
+	config.args[auraType].args.sizeGroup.args.keepSizeRatio = ACH:Toggle(L["Keep Size Ratio"], nil, 1)
+	config.args[auraType].args.sizeGroup.args.height = ACH:Range(L["Icon Height"], nil, 5, { min = 16, max = 60, step = 2 }, nil, nil, nil, nil, function() return E.db.auras[auraType].keepSizeRatio end)
+	config.args[auraType].args.sizeGroup.args.size = ACH:Range(function() return E.db.auras[auraType].keepSizeRatio and L["Size"] or L["Icon Width"] end, L["Set the size of the individual auras."], 5, { min = 16, max = 60, step = 2 })
+	config.args[auraType].args.sizeGroup.args.spacer = ACH:Spacer(6, 'full')
+	config.args[auraType].args.sizeGroup.args.useCustomCoords = ACH:Toggle(L["Use Custom Coords"], nil, 7, nil, nil, nil, nil, nil, nil, function() return E.db.auras[auraType].keepSizeRatio end)
+	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup = ACH:Group(L["Custom Coords"], nil, 8, nil, function(info) return E.db.auras[auraType].customCoords[info[#info]] end, function(info, value) E.db.auras[auraType].customCoords[info[#info]] = value A:UpdateHeader(A.BuffFrame) end, nil, function() return E.db.auras[auraType].keepSizeRatio or not E.db.auras[auraType].useCustomCoords end)
+	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup.args.left = ACH:Range(L["Left"], nil, 1, { min = 0, max = 1, step = 0.01 })
+	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup.args.right = ACH:Range(L["Right"], nil, 2, { min = 0, max = 1, step = 0.01 })
+	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup.args.top = ACH:Range(L["Top"], nil, 3, { min = 0, max = 1, step = 0.01 })
+	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup.args.bottom = ACH:Range(L["Bottom"], nil, 4, { min = 0, max = 1, step = 0.01 })
+	config.args[auraType].args.size.hidden = true
+
+	return config
+end
+
 local function GetOptions()
 	ACH = E.Libs.ACH
-	local Auras = E.Options.args.auras
 
-	Auras.args.buffs.args.sizeGroup = ACH:Group(L["Size"], nil, -3)
-	Auras.args.buffs.args.sizeGroup.inline = true
-	Auras.args.buffs.args.sizeGroup.args.keepSizeRatio = ACH:Toggle(L["Keep Size Ratio"], nil, 1)
-	Auras.args.buffs.args.sizeGroup.args.height = ACH:Range(L["Icon Height"], nil, 5, { min = 16, max = 60, step = 2 }, nil, nil, nil, nil, function() return E.db.auras['buffs'].keepSizeRatio end)
-	Auras.args.buffs.args.sizeGroup.args.size = ACH:Range(function() return E.db.auras['buffs'].keepSizeRatio and L["Size"] or L["Icon Width"] end, L["Set the size of the individual auras."], 5, { min = 16, max = 60, step = 2 })
-	Auras.args.buffs.args.size.hidden = true
-
-	Auras.args.debuffs.args.sizeGroup = ACH:Group(L["Size"], nil, -3)
-	Auras.args.debuffs.args.sizeGroup.inline = true
-	Auras.args.debuffs.args.sizeGroup.args.keepSizeRatio = ACH:Toggle(L["Keep Size Ratio"], nil, 1)
-	Auras.args.debuffs.args.sizeGroup.args.height = ACH:Range(L["Icon Height"], nil, 5, { min = 16, max = 60, step = 2 }, nil, nil, nil, nil, function() return E.db.auras['debuffs'].keepSizeRatio end)
-	Auras.args.debuffs.args.sizeGroup.args.size = ACH:Range(function() return E.db.auras['debuffs'].keepSizeRatio and L["Size"] or L["Icon Width"] end, L["Set the size of the individual auras."], 5, { min = 16, max = 60, step = 2 })
-	Auras.args.debuffs.args.size.hidden = true
+	GetSharedOptions('buffs')
+	GetSharedOptions('debuffs')
 end
 
 local function Initialize()
