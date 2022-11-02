@@ -1,4 +1,4 @@
-local E, L, V, P, G = unpack(ElvUI)
+local E, L, _, P = unpack(ElvUI)
 local A = E.Auras
 
 local ACH
@@ -31,7 +31,6 @@ local DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER = {
 
 local function UpdateIcon(_, button)
 	local db = A.db[button.auraType]
-
 	local pos = db.barPosition
 	local iconSize = db.size - (E.Border * 2)
 	local iconHeight = (db.keepSizeRatio and db.size or db.height) - (E.Border * 2)
