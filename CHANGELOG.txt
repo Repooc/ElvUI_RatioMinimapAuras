@@ -1,4 +1,3 @@
-v1.06 11/2/2022
+v1.07 11/2/2022
 
-• toc bump for 10.0
-• trimmed the icon to match how elvui does the ratio actionbar buttons
+• add ability to finely tune the trimming of the icon
