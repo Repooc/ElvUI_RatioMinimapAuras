@@ -29,6 +29,28 @@ local DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER = {
 	LEFT_UP = 1,
 }
 
+local function trimIcon(button, db, masque)
+	if not button.texture then return end
+
+	local left, right, top, bottom = unpack(db and db.customCoords or E.TexCoords)
+	local changeRatio = db and not db.keepSizeRatio
+	if changeRatio then
+		local width, height = button:GetSize()
+		local ratio = width / height
+		if ratio > 1 then
+			local trimAmount = (1 - (1 / ratio)) * 0.5
+			top = top + trimAmount
+			bottom = bottom - trimAmount
+		else
+			local trimAmount = (1 - ratio) * 0.5
+			left = left + trimAmount
+			right = right - trimAmount
+		end
+	end
+
+	button.texture:SetTexCoord(left, right, top, bottom)
+end
+
 local function UpdateIcon(_, button)
 	local db = A.db[button.auraType]
 	local pos = db.barPosition
@@ -37,6 +59,7 @@ local function UpdateIcon(_, button)
 	local isOnTop, isOnBottom = pos == 'TOP', pos == 'BOTTOM'
 	local isHorizontal = isOnTop or isOnBottom
 
+	trimIcon(button, db)
 	button.statusBar:Size(isHorizontal and iconSize or (db.barSize + (E.PixelMode and 0 or 2)), isHorizontal and (db.barSize + (E.PixelMode and 0 or 2)) or iconHeight)
 end
 
