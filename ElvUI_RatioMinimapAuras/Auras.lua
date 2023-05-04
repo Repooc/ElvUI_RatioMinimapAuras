@@ -141,6 +141,6 @@ local function Initialize()
 	hooksecurefunc(A, 'UpdateHeader', UpdateHeader)
 	hooksecurefunc(A, 'UpdateIcon', UpdateIcon)
 
-	E.Libs.EP:RegisterPlugin('ElvUI_RatioAuras', GetOptions)
+	E.Libs.EP:RegisterPlugin('ElvUI_RatioMinimapAuras', GetOptions)
 end
 hooksecurefunc(E, 'LoadAPI', Initialize)
