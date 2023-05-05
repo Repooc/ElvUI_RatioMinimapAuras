@@ -1,7 +1,7 @@
-## Interface: 100000
+## Interface: 100100
 ## Title: |cff1784d1ElvUI|r |cff9482c9Ratio Minimap Auras|r
 ## Author: Repooc
-## Version: 1.07
+## Version: 1.08
 ## Notes: An |cff1784d1ElvUI|r Plugin that allows you to have separate width and height of the auras by the minimap.
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled

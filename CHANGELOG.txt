@@ -1,3 +1,4 @@
-v1.07 11/2/2022
+v1.08 5/5/2023
 
-• add ability to finely tune the trimming of the icon
+• fix for 10.1
+• toc bumps as well
