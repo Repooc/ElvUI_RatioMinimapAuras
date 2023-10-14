@@ -60,7 +60,12 @@ local function trimIcon(button, db)
 end
 
 local function UpdateIcon(_, button)
+	if not button then return end
+
 	local db = A.db[button.auraType]
+	if not db or db.keepSizeRatio then return end
+
+
 	local pos = db.barPosition
 	local iconSize = db.size - (E.Border * 2)
 	local iconHeight = (db.keepSizeRatio and db.size or db.height) - (E.Border * 2)
@@ -75,12 +80,9 @@ local function UpdateHeader(_, header)
 	if not E.private.auras.enable then return end
 
 	local db = A.db[header.auraType]
+	if not db or db.keepSizeRatio then return end
+
 	local template = format('ElvUIAuraTemplate%d%d', db.size, (db.keepSizeRatio and db.size or db.height))
-
-	if header.filter == 'HELPFUL' then
-		header:SetAttribute('weaponTemplate', template)
-	end
-
 	header:SetAttribute('template', template)
 
 	if IS_HORIZONTAL_GROWTH[db.growthDirection] then
