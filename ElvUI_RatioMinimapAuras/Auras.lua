@@ -125,7 +125,7 @@ local function GetSharedOptions(auraType)
 	config.args[auraType].args.sizeGroup = ACH:Group(L["Size"], nil, -3)
 	config.args[auraType].args.sizeGroup.inline = true
 	config.args[auraType].args.sizeGroup.args.keepSizeRatio = ACH:Toggle(L["Keep Size Ratio"], nil, 1)
-	config.args[auraType].args.sizeGroup.args.height = ACH:Range(L["Icon Height"], nil, 5, { min = 10, max = 60, step = 2 }, nil, nil, nil, nil, function() return E.db.auras[auraType].keepSizeRatio end)
+	config.args[auraType].args.sizeGroup.args.height = ACH:Range(L["Icon Height"], nil, 5, { min = 10, max = 60, step = 1 }, nil, nil, nil, nil, function() return E.db.auras[auraType].keepSizeRatio end)
 	config.args[auraType].args.sizeGroup.args.size = ACH:Range(function() return E.db.auras[auraType].keepSizeRatio and L["Size"] or L["Icon Width"] end, L["Set the size of the individual auras."], 5, { min = 10, max = 60, step = 1 })
 	config.args[auraType].args.sizeGroup.args.spacer = ACH:Spacer(6, 'full')
 	config.args[auraType].args.sizeGroup.args.useCustomCoords = ACH:Toggle(L["Use Custom Coords"], nil, 7, nil, nil, nil, nil, nil, nil, function() return E.db.auras[auraType].keepSizeRatio end)
