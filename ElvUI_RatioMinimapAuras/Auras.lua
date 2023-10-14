@@ -86,11 +86,23 @@ local function UpdateHeader(_, header)
 	header:SetAttribute('template', template)
 
 	if IS_HORIZONTAL_GROWTH[db.growthDirection] then
+		-- header:SetAttribute('minWidth', ((db.wrapAfter == 1 and 0 or db.horizontalSpacing) + db.size) * db.wrapAfter) --* ElvUI
+		-- header:SetAttribute('minHeight', (db.verticalSpacing + db.size) * db.maxWraps) --* ElvUI
 		header:SetAttribute('minHeight', (db.verticalSpacing + (db.keepSizeRatio and db.size or db.height)) * db.maxWraps)
+		-- header:SetAttribute('xOffset', DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER[db.growthDirection] * (db.horizontalSpacing + db.size)) --* ElvUI
+		-- header:SetAttribute('yOffset', 0) --* ElvUI
+		-- header:SetAttribute('wrapXOffset', 0) --* ElvUI
+		-- header:SetAttribute('wrapYOffset', DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER[db.growthDirection] * (db.verticalSpacing + db.size)) --* ElvUI
 		header:SetAttribute('wrapYOffset', DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER[db.growthDirection] * (db.verticalSpacing + (db.keepSizeRatio and db.size or db.height)))
 	else
+		-- header:SetAttribute('minWidth', (db.horizontalSpacing + db.size) * db.maxWraps) --* ElvUI
+		-- header:SetAttribute('minHeight', ((db.wrapAfter == 1 and 0 or db.verticalSpacing) + db.size) * db.wrapAfter) --* ElvUI
 		header:SetAttribute('minHeight', ((db.wrapAfter == 1 and 0 or db.verticalSpacing) + (db.keepSizeRatio and db.size or db.height)) * db.wrapAfter)
+		-- header:SetAttribute('xOffset', 0) --* ElvUI
+		-- header:SetAttribute('yOffset', DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER[db.growthDirection] * (db.verticalSpacing + db.size)) --* ElvUI
 		header:SetAttribute('yOffset', DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER[db.growthDirection] * (db.verticalSpacing + (db.keepSizeRatio and db.size or db.height)))
+		-- header:SetAttribute('wrapXOffset', DIRECTION_TO_HORIZONTAL_SPACING_MULTIPLIER[db.growthDirection] * (db.horizontalSpacing + db.size)) --* ElvUI
+		-- header:SetAttribute('wrapYOffset', 0) --* ElvUI
 	end
 
 	local index = 1
