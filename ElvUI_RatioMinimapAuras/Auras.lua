@@ -100,11 +100,6 @@ local function UpdateHeader(_, header)
 
 		A:UpdateIcon(child)
 
-		--Blizzard bug fix, icons arent being hidden when you reduce the amount of maximum buttons
-		if index > (db.maxWraps * db.wrapAfter) and child:IsShown() then
-			child:Hide()
-		end
-
 		index = index + 1
 		child = select(index, header:GetChildren())
 	end
