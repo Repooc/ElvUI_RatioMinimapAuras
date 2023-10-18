@@ -107,6 +107,7 @@ local function UpdateHeader(_, header)
 
 	local index = 1
 	local child = select(index, header:GetChildren())
+
 	while child do
 		child:Size(db.size, db.keepSizeRatio and db.size or db.height)
 
@@ -118,6 +119,24 @@ local function UpdateHeader(_, header)
 
 	-- if MasqueGroupBuffs and E.private.auras.buffsHeader and E.private.auras.masque.buffs then MasqueGroupBuffs:ReSkin() end
 	-- if MasqueGroupDebuffs and E.private.auras.debuffsHeader and E.private.auras.masque.debuffs then MasqueGroupDebuffs:ReSkin() end
+end
+
+local function Header_OnEvent(self, event)
+	if event == 'WEAPON_ENCHANT_CHANGED' or event == 'PLAYER_ENTERING_WORLD' then
+		local header = self.frame
+		if header and header.auraType == 'buffs' then
+			local db = A.db[header.auraType]
+			if not db or db.keepSizeRatio then return end
+
+			A:UpdateHeader(A.BuffFrame)
+		end
+	end
+end
+
+local function CreateAuraHeader(_, filter)
+	if E.Retail and filter == 'HELPFUL' then
+		ElvUIPlayerBuffs.visibility:RegisterEvent('PLAYER_ENTERING_WORLD')
+	end
 end
 
 local function GetSharedOptions(auraType)
@@ -147,8 +166,10 @@ local function GetOptions()
 end
 
 local function Initialize()
+	hooksecurefunc(A, 'CreateAuraHeader', CreateAuraHeader)
 	hooksecurefunc(A, 'UpdateHeader', UpdateHeader)
 	hooksecurefunc(A, 'UpdateIcon', UpdateIcon)
+	hooksecurefunc(A, 'Header_OnEvent', Header_OnEvent)
 
 	E.Libs.EP:RegisterPlugin('ElvUI_RatioMinimapAuras', GetOptions)
 end
