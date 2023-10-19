@@ -125,6 +125,7 @@ local function UpdateHeader(_, header)
 end
 
 local function GetSharedOptions(auraType)
+	local header = auraType == 'buffs' and A.BuffFrame or A.DebuffFrame
 	local config = E.Options.args.auras
 	config.args[auraType].args.sizeGroup = ACH:Group(L["Size"], nil, -3)
 	config.args[auraType].args.sizeGroup.inline = true
@@ -133,7 +134,7 @@ local function GetSharedOptions(auraType)
 	config.args[auraType].args.sizeGroup.args.size = ACH:Range(function() return E.db.auras[auraType].keepSizeRatio and L["Size"] or L["Icon Width"] end, L["Set the size of the individual auras."], 5, { min = 10, max = 60, step = 1 })
 	config.args[auraType].args.sizeGroup.args.spacer = ACH:Spacer(6, 'full')
 	config.args[auraType].args.sizeGroup.args.useCustomCoords = ACH:Toggle(L["Use Custom Coords"], nil, 7, nil, nil, nil, nil, nil, nil, function() return E.db.auras[auraType].keepSizeRatio end)
-	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup = ACH:Group(L["Custom Coords"], nil, 8, nil, function(info) return E.db.auras[auraType].customCoords[info[#info]] end, function(info, value) E.db.auras[auraType].customCoords[info[#info]] = value A:UpdateHeader(A.BuffFrame) A:UpdateHeader(A.DebuffFrame) end, nil, function() return E.db.auras[auraType].keepSizeRatio or not E.db.auras[auraType].useCustomCoords end)
+	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup = ACH:Group(L["Custom Coords"], nil, 8, nil, function(info) return E.db.auras[auraType].customCoords[info[#info]] end, function(info, value) E.db.auras[auraType].customCoords[info[#info]] = value A:UpdateHeader(header) end, nil, function() return E.db.auras[auraType].keepSizeRatio or not E.db.auras[auraType].useCustomCoords end)
 	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup.args.left = ACH:Range(L["Left"], nil, 1, { min = 0, max = 1, step = 0.01 })
 	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup.args.right = ACH:Range(L["Right"], nil, 2, { min = 0, max = 1, step = 0.01 })
 	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup.args.top = ACH:Range(L["Top"], nil, 3, { min = 0, max = 1, step = 0.01 })
