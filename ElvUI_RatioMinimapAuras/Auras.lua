@@ -85,6 +85,10 @@ local function UpdateHeader(_, header)
 	local template = format('ElvUIAuraTemplate%d%d', db.size, (db.keepSizeRatio and db.size or db.height))
 	header:SetAttribute('template', template)
 
+	if header.filter == 'HELPFUL' then
+		header:SetAttribute('weaponTemplate', template)
+	end
+
 	if IS_HORIZONTAL_GROWTH[db.growthDirection] then
 		-- header:SetAttribute('minWidth', ((db.wrapAfter == 1 and 0 or db.horizontalSpacing) + db.size) * db.wrapAfter) --* ElvUI
 		-- header:SetAttribute('minHeight', (db.verticalSpacing + db.size) * db.maxWraps) --* ElvUI
@@ -109,9 +113,8 @@ local function UpdateHeader(_, header)
 	local child = select(index, header:GetChildren())
 
 	while child do
+		print(child, index)
 		child:Size(db.size, db.keepSizeRatio and db.size or db.height)
-
-		A:UpdateIcon(child)
 
 		index = index + 1
 		child = select(index, header:GetChildren())
@@ -119,24 +122,6 @@ local function UpdateHeader(_, header)
 
 	-- if MasqueGroupBuffs and E.private.auras.buffsHeader and E.private.auras.masque.buffs then MasqueGroupBuffs:ReSkin() end
 	-- if MasqueGroupDebuffs and E.private.auras.debuffsHeader and E.private.auras.masque.debuffs then MasqueGroupDebuffs:ReSkin() end
-end
-
-local function Header_OnEvent(self, event)
-	if event == 'WEAPON_ENCHANT_CHANGED' or event == 'PLAYER_ENTERING_WORLD' then
-		local header = self.frame
-		if header and header.auraType == 'buffs' then
-			local db = A.db[header.auraType]
-			if not db or db.keepSizeRatio then return end
-
-			A:UpdateHeader(A.BuffFrame)
-		end
-	end
-end
-
-local function CreateAuraHeader(_, filter)
-	if E.Retail and filter == 'HELPFUL' then
-		ElvUIPlayerBuffs.visibility:RegisterEvent('PLAYER_ENTERING_WORLD')
-	end
 end
 
 local function GetSharedOptions(auraType)
@@ -148,7 +133,7 @@ local function GetSharedOptions(auraType)
 	config.args[auraType].args.sizeGroup.args.size = ACH:Range(function() return E.db.auras[auraType].keepSizeRatio and L["Size"] or L["Icon Width"] end, L["Set the size of the individual auras."], 5, { min = 10, max = 60, step = 1 })
 	config.args[auraType].args.sizeGroup.args.spacer = ACH:Spacer(6, 'full')
 	config.args[auraType].args.sizeGroup.args.useCustomCoords = ACH:Toggle(L["Use Custom Coords"], nil, 7, nil, nil, nil, nil, nil, nil, function() return E.db.auras[auraType].keepSizeRatio end)
-	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup = ACH:Group(L["Custom Coords"], nil, 8, nil, function(info) return E.db.auras[auraType].customCoords[info[#info]] end, function(info, value) E.db.auras[auraType].customCoords[info[#info]] = value A:UpdateHeader(A.BuffFrame) end, nil, function() return E.db.auras[auraType].keepSizeRatio or not E.db.auras[auraType].useCustomCoords end)
+	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup = ACH:Group(L["Custom Coords"], nil, 8, nil, function(info) return E.db.auras[auraType].customCoords[info[#info]] end, function(info, value) E.db.auras[auraType].customCoords[info[#info]] = value A:UpdateHeader(A.BuffFrame) A:UpdateHeader(A.DebuffFrame) end, nil, function() return E.db.auras[auraType].keepSizeRatio or not E.db.auras[auraType].useCustomCoords end)
 	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup.args.left = ACH:Range(L["Left"], nil, 1, { min = 0, max = 1, step = 0.01 })
 	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup.args.right = ACH:Range(L["Right"], nil, 2, { min = 0, max = 1, step = 0.01 })
 	config.args[auraType].args.sizeGroup.args.CustomCoordsGroup.args.top = ACH:Range(L["Top"], nil, 3, { min = 0, max = 1, step = 0.01 })
@@ -166,10 +151,8 @@ local function GetOptions()
 end
 
 local function Initialize()
-	hooksecurefunc(A, 'CreateAuraHeader', CreateAuraHeader)
 	hooksecurefunc(A, 'UpdateHeader', UpdateHeader)
 	hooksecurefunc(A, 'UpdateIcon', UpdateIcon)
-	hooksecurefunc(A, 'Header_OnEvent', Header_OnEvent)
 
 	E.Libs.EP:RegisterPlugin('ElvUI_RatioMinimapAuras', GetOptions)
 end
