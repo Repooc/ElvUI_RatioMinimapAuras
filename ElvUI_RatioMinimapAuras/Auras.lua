@@ -113,7 +113,6 @@ local function UpdateHeader(_, header)
 	local child = select(index, header:GetChildren())
 
 	while child do
-		print(child, index)
 		child:Size(db.size, db.keepSizeRatio and db.size or db.height)
 
 		index = index + 1
