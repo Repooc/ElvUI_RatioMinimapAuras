@@ -1,4 +1,3 @@
-v1.08 5/5/2023
+v1.10 10/18/2023
 
-• fix for 10.1
-• toc bumps as well
+• weapon enchants not following the size correctly
