@@ -37,3 +37,11 @@ jobs:
           fields: '[{"name": "Released By:", "value": "[${{ github.event.sender.login }}](${{ github.event.sender.html_url }})", "inline": true}, {"name": "Issue Tracker:", "value": "[${{ github.event.repository.name }}](${{ github.event.repository.html_url }}/issues)", "inline": true}, {"name": "Version", "value": "${{ env.RELEASE_VERSION }}", "inline": true}, {"name": "Wago Addons", "value": "[Click Here](${{ env.WAGO_URL }})", "inline": true}, {"name": "Curseforge", "value": "[Click Here](${{ env.CF_URL }})", "inline": true}]'
           footer: Addons by Repooc
           timestamp: true
+      - name: Upload CHANGELOG.txt to Discord
+        uses: nocturlab/upload-to-discord@master
+        if: success()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.WEBHOOK_URL }}
+        with:
+          args: CHANGELOG.txt
+
