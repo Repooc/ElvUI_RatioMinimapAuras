@@ -36,7 +36,7 @@ local DIRECTION_TO_VERTICAL_SPACING_MULTIPLIER = {
 	LEFT_UP = 1,
 }
 
-local function trimIcon(button, db)
+local function trimIcon(button, db, override)
 	if not button.texture or not db then return end
 
 	local left, right, top, bottom = unpack(db.useCustomCoords and {db.customCoords.left, db.customCoords.right, db.customCoords.top, db.customCoords.bottom} or E.TexCoords)
@@ -59,12 +59,15 @@ local function trimIcon(button, db)
 	button.texture:SetTexCoord(left, right, top, bottom)
 end
 
-local function UpdateIcon(_, button)
+local function UpdateIcon(_, button, update, override)
 	if not button then return end
 
 	local db = A.db[button.auraType]
-	if not db or db.keepSizeRatio then return end
+	if not db or (db.keepSizeRatio and not override) then return end
 
+	if update then
+		button:Size(db.size, db.keepSizeRatio and db.size or db.height)
+	end
 
 	local pos = db.barPosition
 	local iconSize = db.size - (E.Border * 2)
@@ -76,11 +79,11 @@ local function UpdateIcon(_, button)
 	button.statusBar:Size(isHorizontal and iconSize or (db.barSize + (E.PixelMode and 0 or 2)), isHorizontal and (db.barSize + (E.PixelMode and 0 or 2)) or iconHeight)
 end
 
-local function UpdateHeader(_, header)
+local function UpdateHeader(_, header, override)
 	if not E.private.auras.enable then return end
 
 	local db = A.db[header.auraType]
-	if not db or db.keepSizeRatio then return end
+	if not db or (db.keepSizeRatio and not override) then return end
 
 	local template = format('ElvUIAuraTemplate%d%d', db.size, (db.keepSizeRatio and db.size or db.height))
 	header:SetAttribute('template', template)
@@ -115,6 +118,10 @@ local function UpdateHeader(_, header)
 	while child do
 		child:Size(db.size, db.keepSizeRatio and db.size or db.height)
 
+		if override then
+			UpdateIcon(nil, child, nil, override)
+		end
+
 		index = index + 1
 		child = select(index, header:GetChildren())
 	end
@@ -128,7 +135,7 @@ local function GetSharedOptions(auraType)
 	local config = E.Options.args.auras
 	config.args[auraType].args.sizeGroup = ACH:Group(L["Size"], nil, -3)
 	config.args[auraType].args.sizeGroup.inline = true
-	config.args[auraType].args.sizeGroup.args.keepSizeRatio = ACH:Toggle(L["Keep Size Ratio"], nil, 1)
+	config.args[auraType].args.sizeGroup.args.keepSizeRatio = ACH:Toggle(L["Keep Size Ratio"], nil, 1, nil, nil, nil, nil, function(info, value) E.db.auras[auraType][info[#info]] = value A:UpdateHeader(header, true) end)
 	config.args[auraType].args.sizeGroup.args.height = ACH:Range(L["Icon Height"], nil, 5, { min = 10, max = 60, step = 1 }, nil, nil, nil, nil, function() return E.db.auras[auraType].keepSizeRatio end)
 	config.args[auraType].args.sizeGroup.args.size = ACH:Range(function() return E.db.auras[auraType].keepSizeRatio and L["Size"] or L["Icon Width"] end, L["Set the size of the individual auras."], 5, { min = 10, max = 60, step = 1 })
 	config.args[auraType].args.sizeGroup.args.spacer = ACH:Spacer(6, 'full')
