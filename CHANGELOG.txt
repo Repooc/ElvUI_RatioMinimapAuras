@@ -1,3 +1,3 @@
-v1.11 10/19/2023
+v1.12 10/26/2023
 
-• internal changes & to test some configurations
+• update code to reflect changes in elvui
