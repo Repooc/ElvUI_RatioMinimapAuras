@@ -15,6 +15,7 @@ jobs:
       CF_URL: https://www.curseforge.com/wow/addons/elvui-ratiominimapauras
       WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
       WAGO_URL: https://addons.wago.io/addons/elvui-ratiominimapauras
+      DISCORD_NEWS_CHANNEL_ID: "1164433316976537620"
       RR_AUTHOR_SUPPORT_INFO_NAME: "general-info"
       RR_AUTHOR_SUPPORT_INFO_URL: "https://discord.com/channels/1162274244487561216/1171940634672767128"
       RR_ADDON_CHANNEL_NAME: "ratio-minimap-auras"
@@ -48,17 +49,17 @@ jobs:
         if: success()
         with:
           bot-token: ${{ secrets.ANNOUNCER_BOT_TOKEN }}
-          channel: ${{ secrets.DISCORD_NEWS_CHANNEL_ID }}
+          channel: ${{ env.DISCORD_NEWS_CHANNEL_ID }}
           content: |
-            **__${{ github.event.repository.name }}__** **v${{ env.RELEASE_VERSION }}** *has been released!*
-
+            **__${{ github.event.repository.name }}__** **v${{ env.RELEASE_VERSION }}** *has been released!*  
+              
             You can view the changes made by viewing the [changelog](<${{ github.event.repository.html_url }}/CHANGELOG.txt>) here!
-
+              
             Go grab the new version from [Wago AddOns](<${{ env.WAGO_URL }}>) or [Curse](<${{ env.CF_URL }}>)!
-
+              
             If you would like to help support the work I do, consider supporting me via the [Discord Shop](https://discord.com/servers/repooc-reforged-1162274244487561216) or the other various ways listed in the [${{env.RR_AUTHOR_SUPPORT_INFO_NAME}}](<${{env.RR_AUTHOR_SUPPORT_INFO_URL}}>) channel.
-
-            You can get help for the addon in the [${{env.RR_ADDON_CHANNEL_URL}}](${{env.RR_ADDON_CHANNEL_URL}}) support channel!
+              
+            You can get help for the addon in the [${{env.RR_ADDON_CHANNEL_NAME}}](<${{env.RR_ADDON_CHANNEL_URL}}>) support channel!
       - name: Print message id
         run: echo "Message id = ${{ steps.publish-to-discord.outputs.message-id }}"
 
