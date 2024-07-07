@@ -1,7 +1,8 @@
 local E, L, _, P = unpack(ElvUI)
 local A = E.Auras
+local ACH = E.Libs.ACH
+local RRP = LibStub('RepoocReforged-1.0'):LoadMainCategory()
 
-local ACH
 -- local Masque = E.Masque
 -- local MasqueGroupBuffs = Masque and Masque:Group('ElvUI', 'Buffs')
 -- local MasqueGroupDebuffs = Masque and Masque:Group('ElvUI', 'Debuffs')
@@ -151,8 +152,6 @@ local function GetSharedOptions(auraType)
 end
 
 local function GetOptions()
-	ACH = E.Libs.ACH
-
 	GetSharedOptions('buffs')
 	GetSharedOptions('debuffs')
 end

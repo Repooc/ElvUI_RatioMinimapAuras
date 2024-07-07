@@ -1,7 +1,9 @@
-## Interface: 100200
-## Title: |cff1784d1ElvUI|r |cff9482c9Ratio Minimap Auras|r
+## Interface: 100207
+## Interface-Cata: 40400
+## Interface-Classic: 11502
+## Title: |cff1784d1ElvUI|r |cff00FF98Ratio|r |cffA330C9Minimap Auras|r
 ## Author: Repooc
-## Version: 1.13
+## Version: 1.14
 ## Notes: An |cff1784d1ElvUI|r Plugin that allows you to have separate width and height of the auras by the minimap.
 ## RequiredDeps: ElvUI
 ## DefaultState: Enabled
@@ -9,4 +11,5 @@
 ## X-Wago-ID: qv63epGb
 ## IconTexture: Interface\AddOns\ElvUI_RatioMinimapAuras\Logo
 
+Libs\Load_Libs.xml
 Auras.xml
