@@ -1,7 +1,7 @@
 local E, L, _, P = unpack(ElvUI)
 local A = E.Auras
 local ACH = E.Libs.ACH
-local RRP = LibStub('RepoocReforged-1.0'):LoadMainCategory()
+LibStub('RepoocReforged-1.0'):LoadMainCategory()
 
 -- local Masque = E.Masque
 -- local MasqueGroupBuffs = Masque and Masque:Group('ElvUI', 'Buffs')
