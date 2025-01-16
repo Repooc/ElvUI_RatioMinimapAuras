@@ -1,7 +1,7 @@
 ## Interface: 110005
 ## Interface-Cata: 40401
 ## Interface-Classic: 11505
-## Title: |cff1784d1ElvUI|r |cff00FF98Ratio|r |cffA330C9Minimap|r |cff00FF98Auras|r
+## Title: |cff1784d1ElvUI|r |cff00FF98R|r|cff0AF29Ba|r|cff14E59Et|r|cff1ED8A1i|r|cff28CBA4o|r |cff3DB1AAM|r|cff47A4ADi|r|cff5197B0n|r|cff5B8AB3i|r|cff657DB6m|r|cff7070B9a|r|cff7A63BCp|r |cff8E49C2A|r|cff983CC5u|r|cffA330C9r|r|cffAD23CCa|r|cffB716CFs|r
 ## Author: Repooc
 ## Version: 1.17
 ## Notes: An |cff1784d1ElvUI|r Plugin that allows you to have separate width and height of the auras by the minimap.
